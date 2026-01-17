@@ -1,5 +1,7 @@
 import { LucideIcon } from 'lucide-react';
 
+export type PageView = 'home' | 'privacy' | 'support';
+
 export interface Feature {
   title: string;
   description: string;

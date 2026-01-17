@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Droplets } from 'lucide-react';
-import { NavItem } from '../types';
+import { NavItem, PageView } from '../types';
 
 const navItems: NavItem[] = [
   { label: 'Features', href: '#features' },
@@ -9,7 +9,12 @@ const navItems: NavItem[] = [
   { label: 'FAQ', href: '#faq' },
 ];
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  currentView: PageView;
+  onNavigate: (view: PageView) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -21,6 +26,30 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+
+    if (href.startsWith('#')) {
+      if (currentView !== 'home') {
+        onNavigate('home');
+        // Small delay to allow home component to mount before scrolling
+        setTimeout(() => {
+          const element = document.querySelector(href);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        const element = document.querySelector(href);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleLogoClick = () => {
+    onNavigate('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
@@ -29,7 +58,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16 sm:h-20">
           
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
+          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={handleLogoClick}>
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-brand-blue to-brand-aqua rounded-xl flex items-center justify-center text-white shadow-lg">
               <Droplets size={20} fill="currentColor" />
             </div>
@@ -42,13 +71,20 @@ const Navbar: React.FC = () => {
               <a
                 key={item.label}
                 href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="text-gray-600 hover:text-brand-blue font-medium transition-colors"
               >
                 {item.label}
               </a>
             ))}
+            <button
+              onClick={() => onNavigate('support')}
+              className="text-gray-600 hover:text-brand-blue font-medium transition-colors"
+            >
+              Support
+            </button>
             <a
-              href="#download"
+              href="#"
               className="px-6 py-2.5 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-all hover:shadow-lg transform hover:-translate-y-0.5"
             >
               Get App
@@ -70,22 +106,31 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Nav Dropdown */}
       <div className={`md:hidden absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
-        isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
       }`}>
         <div className="px-4 pt-2 pb-6 space-y-2">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-blue hover:bg-gray-50"
-              onClick={() => setIsOpen(false)}
             >
               {item.label}
             </a>
           ))}
+           <button
+            onClick={() => {
+              onNavigate('support');
+              setIsOpen(false);
+            }}
+            className="block w-full text-left px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-blue hover:bg-gray-50"
+          >
+            Support
+          </button>
           <div className="pt-4">
             <a
-              href="#download"
+              href="#"
               className="block w-full text-center px-6 py-3 bg-brand-blue text-white font-medium rounded-xl hover:bg-blue-600 transition-colors"
               onClick={() => setIsOpen(false)}
             >
