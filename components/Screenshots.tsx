@@ -11,17 +11,17 @@ const screenshots = [
 
 const Screenshots: React.FC = () => {
   return (
-    <section id="screenshots" className="py-24 bg-white overflow-hidden">
+    <section id="screenshots" className="py-24 bg-white dark:bg-brand-dark transition-colors duration-300 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Clean, Intuitive Interface</h2>
-        <p className="text-xl text-gray-600">Designed to feel right at home on your iPhone.</p>
+        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Clean, Intuitive Interface</h2>
+        <p className="text-xl text-gray-600 dark:text-gray-400">Designed to feel right at home on your iPhone.</p>
       </div>
 
       <div className="flex overflow-x-auto pb-12 gap-8 px-4 sm:px-8 snap-x snap-mandatory scrollbar-hide -mx-4 sm:mx-0 justify-start md:justify-center">
         {screenshots.map((src, index) => (
           <div 
             key={index} 
-            className="flex-shrink-0 w-72 sm:w-80 snap-center rounded-[2.5rem] overflow-hidden border-8 border-gray-100 shadow-2xl transition-transform hover:-translate-y-2 duration-300 bg-gray-50"
+            className="flex-shrink-0 w-72 sm:w-80 snap-center rounded-[2.5rem] overflow-hidden border-8 border-gray-100 dark:border-gray-800 shadow-2xl transition-transform hover:-translate-y-2 duration-300 bg-gray-50 dark:bg-gray-800"
           >
             <img src={src} alt={`App Screenshot ${index + 1}`} className="w-full h-auto object-cover" />
           </div>

@@ -7,7 +7,6 @@ const testimonials: Testimonial[] = [
     quote: "I never realized how dehydrated I was until I started using H2O. The widgets make it so easy to track without opening the app!",
     author: "Sarah Jenkins",
     role: "Yoga Instructor",
-    // Using generated avatars instead of stock photos
     avatar: "https://ui-avatars.com/api/?name=Sarah+Jenkins&background=007AFF&color=fff"
   },
   {
@@ -26,27 +25,27 @@ const testimonials: Testimonial[] = [
 
 const Testimonials: React.FC = () => {
   return (
-    <section className="py-24 bg-gradient-to-br from-blue-50 to-cyan-50">
+    <section className="py-24 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-brand-dark dark:to-gray-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Loved by Thousands</h2>
-          <p className="mt-4 text-xl text-gray-600">Join the community of healthy hydration.</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Loved by Thousands</h2>
+          <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">Join the community of healthy hydration.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((t, index) => (
-            <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <div key={index} className="bg-white dark:bg-brand-darkCard p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-2 border border-transparent dark:border-gray-800">
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={18} className="text-yellow-400 fill-current" />
                 ))}
               </div>
-              <p className="text-gray-700 mb-8 leading-relaxed italic">"{t.quote}"</p>
+              <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed italic">"{t.quote}"</p>
               <div className="flex items-center gap-4">
-                <img src={t.avatar} alt={t.author} className="w-12 h-12 rounded-full object-cover" />
+                <img src={t.avatar} alt={t.author} className="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-gray-700" />
                 <div>
-                  <div className="font-bold text-gray-900">{t.author}</div>
-                  <div className="text-sm text-gray-500">{t.role}</div>
+                  <div className="font-bold text-gray-900 dark:text-white">{t.author}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{t.role}</div>
                 </div>
               </div>
             </div>

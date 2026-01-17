@@ -33,31 +33,31 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-24 bg-white">
+    <section id="faq" className="py-24 bg-white dark:bg-brand-dark transition-colors duration-300">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">Frequently Asked Questions</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">Frequently Asked Questions</h2>
         
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="border border-gray-200 rounded-xl overflow-hidden hover:border-brand-blue/30 transition-colors">
+            <div key={index} className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:border-brand-blue/30 dark:hover:border-brand-aqua/30 transition-colors">
               <button
-                className="w-full px-6 py-5 text-left flex justify-between items-center bg-white hover:bg-gray-50 transition-colors focus:outline-none"
+                className="w-full px-6 py-5 text-left flex justify-between items-center bg-white dark:bg-brand-darkCard hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors focus:outline-none"
                 onClick={() => toggleFAQ(index)}
               >
-                <span className="font-semibold text-lg text-gray-900">{faq.question}</span>
+                <span className="font-semibold text-lg text-gray-900 dark:text-white">{faq.question}</span>
                 {openIndex === index ? (
-                  <Minus className="text-brand-blue flex-shrink-0 ml-4" size={20} />
+                  <Minus className="text-brand-blue dark:text-brand-aqua flex-shrink-0 ml-4" size={20} />
                 ) : (
-                  <Plus className="text-gray-400 flex-shrink-0 ml-4" size={20} />
+                  <Plus className="text-gray-400 dark:text-gray-500 flex-shrink-0 ml-4" size={20} />
                 )}
               </button>
               
               <div 
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                className={`overflow-hidden transition-all duration-300 ease-in-out bg-gray-50 dark:bg-gray-900/50 ${
                   openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
-                <div className="px-6 pb-6 text-gray-600 leading-relaxed">
+                <div className="px-6 py-6 text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-800">
                   {faq.answer}
                 </div>
               </div>
