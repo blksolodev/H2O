@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
               {/* Screen Content - displaying the specific 'Today' screen */}
               <div className="w-full h-full relative bg-brand-bg">
                  <img 
-                   src="./image_2.png" 
+                   src="./IMG_0198.PNG" 
                    alt="H2O App Today Screen" 
                    className="w-full h-full object-cover"
                  />

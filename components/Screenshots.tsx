@@ -1,11 +1,12 @@
 import React from 'react';
 
-// Using the default filenames for the uploaded images
+// Using the provided IMG filenames
 const screenshots = [
-  "./image.png",    // Splash Screen
-  "./image_2.png",  // Today Screen (0%)
-  "./image_3.png",  // Today Screen (Quick Add)
-  "./image_1.png",  // History Screen
+  "./IMG_0196.PNG", // Splash
+  "./IMG_0198.PNG", // Today
+  "./IMG_0199.PNG", // Quick Add
+  "./IMG_0197.PNG", // History
+  "./IMG_0200.PNG", // Extra
 ];
 
 const Screenshots: React.FC = () => {
