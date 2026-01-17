@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronRight, Apple } from 'lucide-react';
+import { ChevronRight, Apple, Droplet, Flame, Trophy, Coffee, Sparkles } from 'lucide-react';
 
 const StatCounter = ({ end, label }: { end: number; label: string }) => {
   const [count, setCount] = useState(0);
@@ -44,6 +44,117 @@ const StatCounter = ({ end, label }: { end: number; label: string }) => {
     </div>
   );
 };
+
+// --- Mock Screen Component (Duplicated from Screenshots for Hero usage) ---
+const ScreenToday = () => (
+  <div className="w-full h-full bg-[#020617] text-white flex flex-col relative font-sans overflow-hidden select-none">
+    {/* Decorative Background Elements */}
+    <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blue/20 rounded-bl-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+    <div className="absolute bottom-1/3 left-0 w-48 h-48 bg-brand-aqua/10 rounded-tr-full blur-3xl -ml-10 pointer-events-none"></div>
+
+    {/* Header */}
+    <div className="pt-14 px-6 mb-2 flex justify-between items-center relative z-10">
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight">Today</h2>
+        <p className="text-gray-400 text-xs font-medium">Sat, Jan 26</p>
+      </div>
+      <div className="w-8 h-8 rounded-full bg-gray-800/50 border border-white/10 flex items-center justify-center">
+        <div className="w-full h-full rounded-full bg-gradient-to-tr from-brand-blue to-cyan-400 opacity-80 scale-75"></div>
+      </div>
+    </div>
+
+    {/* Main Circular Progress */}
+    <div className="flex-grow flex flex-col items-center justify-center -mt-6 relative z-10">
+      <div className="relative w-52 h-52 flex items-center justify-center">
+        {/* Glow */}
+        <div className="absolute inset-0 bg-brand-blue/10 blur-2xl rounded-full scale-90"></div>
+        
+        {/* SVG Ring with viewBox for scaling */}
+        <svg className="w-full h-full rotate-[-90deg]" viewBox="0 0 256 256">
+          {/* Track */}
+          <circle cx="128" cy="128" r="100" stroke="#0f172a" strokeWidth="24" fill="transparent" strokeLinecap="round" />
+          {/* Progress */}
+          <circle 
+            cx="128" cy="128" r="100" 
+            stroke="url(#gradient-hero)" 
+            strokeWidth="24" 
+            fill="transparent" 
+            strokeDasharray="628" 
+            strokeDashoffset="500" 
+            strokeLinecap="round" 
+            className="drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]" 
+          />
+          <defs>
+            <linearGradient id="gradient-hero" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#007AFF" />
+              <stop offset="100%" stopColor="#00C7BE" />
+            </linearGradient>
+          </defs>
+        </svg>
+        
+        {/* Center Text */}
+        <div className="absolute flex flex-col items-center">
+          <span className="text-5xl font-bold tracking-tighter text-white drop-shadow-lg">20<span className="text-2xl align-top text-gray-400">%</span></span>
+          <span className="text-xs text-cyan-100/70 mt-1 font-medium tracking-wide">12 / 64 oz</span>
+        </div>
+      </div>
+      
+      <div className="mt-6 bg-[#0f172a] border border-white/5 px-6 py-2 rounded-full shadow-lg backdrop-blur-md">
+        <p className="text-brand-aqua text-xs font-semibold tracking-wide">52 oz to go</p>
+      </div>
+    </div>
+
+    {/* Bottom Sheet UI */}
+    <div className="mt-auto bg-[#0f172a] rounded-t-[2.5rem] p-6 pb-10 border-t border-white/5 relative shadow-[0_-10px_40px_rgba(0,0,0,0.3)]">
+        {/* Handle */}
+        <div className="w-12 h-1 bg-gray-700/50 rounded-full mx-auto mb-8"></div>
+        
+        {/* Streak Cards */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="bg-[#1e293b] p-4 rounded-2xl flex items-center gap-3 border border-white/5 shadow-inner">
+                <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-500 ring-1 ring-orange-500/30">
+                    <Flame size={20} fill="currentColor" />
+                </div>
+                <div>
+                    <div className="text-xl font-bold leading-none">5</div>
+                    <div className="text-[10px] text-gray-400 mt-1 font-medium">Day Streak</div>
+                </div>
+            </div>
+            <div className="bg-[#1e293b] p-4 rounded-2xl flex items-center gap-3 border border-white/5 shadow-inner">
+                <div className="w-10 h-10 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-500 ring-1 ring-yellow-500/30">
+                    <Trophy size={20} fill="currentColor" />
+                </div>
+                <div>
+                    <div className="text-xl font-bold leading-none">12</div>
+                    <div className="text-[10px] text-gray-400 mt-1 font-medium">Best Streak</div>
+                </div>
+            </div>
+        </div>
+
+        {/* Quick Add Row */}
+        <div className="flex gap-4">
+             <div className="flex flex-col items-center gap-2 group cursor-pointer flex-1">
+                <div className="w-full aspect-square bg-brand-blue rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 ring-1 ring-white/20 hover:scale-105 transition-transform">
+                    <Droplet size={28} fill="white" />
+                </div>
+                <span className="text-[11px] font-medium text-white">Water</span>
+            </div>
+             <div className="flex flex-col items-center gap-2 flex-1 opacity-60">
+                <div className="w-full aspect-square bg-[#1e293b] rounded-2xl flex items-center justify-center ring-1 ring-white/5">
+                    <Coffee size={24} />
+                </div>
+                <span className="text-[11px] font-medium text-gray-400">Coffee</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 flex-1 opacity-60">
+                <div className="w-full aspect-square bg-[#1e293b] rounded-2xl flex items-center justify-center ring-1 ring-white/5">
+                    <Sparkles size={24} />
+                </div>
+                <span className="text-[11px] font-medium text-gray-400">Sparkling</span>
+            </div>
+        </div>
+    </div>
+  </div>
+);
 
 const Hero: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -146,17 +257,12 @@ const Hero: React.FC = () => {
             {/* Glow behind phone */}
             <div className="absolute inset-0 bg-gradient-to-tr from-brand-blue to-brand-aqua rounded-[3rem] blur-3xl opacity-30 dark:opacity-40 group-hover:opacity-50 transition-opacity duration-500 transform scale-95" />
             
-            <div className="relative rounded-[3rem] border-[8px] border-gray-900 dark:border-gray-800 overflow-hidden shadow-2xl bg-white aspect-[9/19.5]">
+            <div className="relative rounded-[3rem] border-[8px] border-gray-900 dark:border-gray-800 overflow-hidden shadow-2xl bg-[#020617] aspect-[9/19.5]">
               {/* Screen Content */}
-              <div className="w-full h-full relative bg-brand-bg">
-                 <img 
-                   src="./IMG_0198.PNG" 
-                   alt="H2O App Today Screen" 
-                   className="w-full h-full object-cover"
-                 />
-                 {/* Glossy Reflection */}
-                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none" />
-              </div>
+              <ScreenToday />
+              
+              {/* Glossy Reflection Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none rounded-[2.5rem]" />
             </div>
           </div>
 
