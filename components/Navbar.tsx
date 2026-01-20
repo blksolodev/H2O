@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Droplets, Sun, Moon } from 'lucide-react';
-import { NavItem, PageView } from '../types';
+import { NavItem } from '../types';
 
 const navItems: NavItem[] = [
-  { label: 'Features', href: '#features' },
-  { label: 'How it Works', href: '#how-it-works' },
-  { label: 'Screenshots', href: '#screenshots' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Features', href: '/features' },
+  { label: 'How it Works', href: '/how-it-works' },
+  { label: 'Screenshots', href: '/screenshots' },
+  { label: 'FAQ', href: '/faq' },
 ];
 
 interface NavbarProps {
-  currentView: PageView;
-  onNavigate: (view: PageView) => void;
+  currentPath: string;
+  onNavigate: (path: string) => void;
   darkMode: boolean;
   toggleDarkMode: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, darkMode, toggleDarkMode }) => {
+const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, darkMode, toggleDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -31,30 +31,18 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, darkMode, togg
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
-
-    if (href.startsWith('#')) {
-      if (currentView !== 'home') {
-        onNavigate('home');
-        setTimeout(() => {
-          const element = document.querySelector(href);
-          element?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        const element = document.querySelector(href);
-        element?.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    onNavigate(href);
   };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'glass shadow-sm' : 'bg-transparent'
+      scrolled || currentPath !== '/' ? 'glass shadow-sm' : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer group" onClick={() => onNavigate('home')}>
+          <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer group" onClick={() => onNavigate('/')}>
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-brand-blue to-brand-aqua rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
               <Droplets size={20} fill="currentColor" className="animate-bounce" style={{ animationDuration: '3s' }} />
             </div>
@@ -68,14 +56,22 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, darkMode, togg
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="text-gray-600 dark:text-gray-300 hover:text-brand-blue dark:hover:text-brand-aqua font-medium transition-colors relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-brand-blue after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+                className={`text-sm font-medium transition-colors relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-brand-blue after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
+                  currentPath === item.href 
+                    ? 'text-brand-blue dark:text-brand-aqua after:scale-x-100 after:origin-bottom-left' 
+                    : 'text-gray-600 dark:text-gray-300 hover:text-brand-blue dark:hover:text-brand-aqua'
+                }`}
               >
                 {item.label}
               </a>
             ))}
             <button
-              onClick={() => onNavigate('support')}
-              className="text-gray-600 dark:text-gray-300 hover:text-brand-blue dark:hover:text-brand-aqua font-medium transition-colors"
+              onClick={() => onNavigate('/support')}
+              className={`text-sm font-medium transition-colors ${
+                currentPath === '/support' 
+                  ? 'text-brand-blue dark:text-brand-aqua' 
+                  : 'text-gray-600 dark:text-gray-300 hover:text-brand-blue dark:hover:text-brand-aqua'
+              }`}
             >
               Support
             </button>
@@ -90,7 +86,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, darkMode, togg
             </button>
 
             <a
-              href="#"
+              href="/download"
+              onClick={(e) => handleNavClick(e, '/download')}
               className="px-6 py-2.5 bg-gray-900 dark:bg-brand-blue text-white font-medium rounded-full hover:bg-gray-800 dark:hover:bg-blue-600 transition-all hover:shadow-lg transform hover:-translate-y-0.5 liquid-button"
             >
               Get App
@@ -125,14 +122,18 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, darkMode, togg
               key={item.label}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-blue dark:hover:text-brand-aqua hover:bg-gray-50 dark:hover:bg-gray-800"
+              className={`block px-3 py-3 rounded-md text-base font-medium hover:bg-gray-50 dark:hover:bg-gray-800 ${
+                 currentPath === item.href 
+                 ? 'text-brand-blue dark:text-brand-aqua bg-gray-50 dark:bg-gray-800'
+                 : 'text-gray-700 dark:text-gray-200 hover:text-brand-blue dark:hover:text-brand-aqua'
+              }`}
             >
               {item.label}
             </a>
           ))}
            <button
             onClick={() => {
-              onNavigate('support');
+              onNavigate('/support');
               setIsOpen(false);
             }}
             className="block w-full text-left px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-brand-blue dark:hover:text-brand-aqua hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -141,9 +142,9 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate, darkMode, togg
           </button>
           <div className="pt-4">
             <a
-              href="#"
+              href="/download"
               className="block w-full text-center px-6 py-3 bg-brand-blue text-white font-medium rounded-xl hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/30"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => handleNavClick(e, '/download')}
             >
               Download on App Store
             </a>

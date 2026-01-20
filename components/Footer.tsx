@@ -1,24 +1,14 @@
 import React from 'react';
 import { Droplets, Twitter, Instagram, Mail } from 'lucide-react';
-import { PageView } from '../types';
 
 interface FooterProps {
-  onNavigate: (view: PageView) => void;
+  onNavigate: (path: string) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, view: PageView) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
-    onNavigate(view);
-    window.scrollTo(0, 0);
-  };
-
-  const handleSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    onNavigate('home');
-    setTimeout(() => {
-      document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    onNavigate(path);
   };
 
   return (
@@ -52,19 +42,19 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             <h3 className="font-bold text-lg mb-6">Product</h3>
             <ul className="space-y-4">
-              <li><a href="#features" onClick={(e) => handleSectionClick(e, '#features')} className="text-gray-400 hover:text-brand-aqua transition-colors">Features</a></li>
-              <li><a href="#how-it-works" onClick={(e) => handleSectionClick(e, '#how-it-works')} className="text-gray-400 hover:text-brand-aqua transition-colors">How it Works</a></li>
-              <li><a href="#faq" onClick={(e) => handleSectionClick(e, '#faq')} className="text-gray-400 hover:text-brand-aqua transition-colors">FAQ</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-brand-aqua transition-colors">Download</a></li>
+              <li><a href="/features" onClick={(e) => handleNavClick(e, '/features')} className="text-gray-400 hover:text-brand-aqua transition-colors">Features</a></li>
+              <li><a href="/how-it-works" onClick={(e) => handleNavClick(e, '/how-it-works')} className="text-gray-400 hover:text-brand-aqua transition-colors">How it Works</a></li>
+              <li><a href="/faq" onClick={(e) => handleNavClick(e, '/faq')} className="text-gray-400 hover:text-brand-aqua transition-colors">FAQ</a></li>
+              <li><a href="/download" onClick={(e) => handleNavClick(e, '/download')} className="text-gray-400 hover:text-brand-aqua transition-colors">Download</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-bold text-lg mb-6">Legal & Support</h3>
             <ul className="space-y-4">
-              <li><a href="#" onClick={(e) => handleNavClick(e, 'privacy')} className="text-gray-400 hover:text-brand-aqua transition-colors">Privacy Policy</a></li>
-              <li><a href="#" onClick={(e) => handleNavClick(e, 'support')} className="text-gray-400 hover:text-brand-aqua transition-colors">Support Center</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-brand-aqua transition-colors">Terms of Service</a></li>
+              <li><a href="/privacy-policy" onClick={(e) => handleNavClick(e, '/privacy-policy')} className="text-gray-400 hover:text-brand-aqua transition-colors">Privacy Policy</a></li>
+              <li><a href="/support" onClick={(e) => handleNavClick(e, '/support')} className="text-gray-400 hover:text-brand-aqua transition-colors">Support Center</a></li>
+              <li><a href="/terms-of-service" onClick={(e) => handleNavClick(e, '/terms-of-service')} className="text-gray-400 hover:text-brand-aqua transition-colors">Terms of Service</a></li>
             </ul>
           </div>
 

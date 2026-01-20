@@ -9,11 +9,12 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Support from './components/Support';
-import { PageView } from './types';
+import TermsOfService from './components/TermsOfService';
+import Download from './components/Download';
 import { Droplets } from 'lucide-react';
 
 const App: React.FC = () => {
-  const [view, setView] = useState<PageView>('home');
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -21,6 +22,15 @@ const App: React.FC = () => {
   // Initial Load Animation
   useEffect(() => {
     setTimeout(() => setLoading(false), 1500);
+  }, []);
+
+  // Handle Browser Back/Forward
+  useEffect(() => {
+    const onPopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   // Scroll Progress
@@ -45,8 +55,9 @@ const App: React.FC = () => {
     }
   };
 
-  const handleNavigate = (newView: PageView) => {
-    setView(newView);
+  const navigate = (path: string) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
     window.scrollTo(0, 0);
   };
 
@@ -62,6 +73,63 @@ const App: React.FC = () => {
     );
   }
 
+  // Router Logic
+  const renderContent = () => {
+    switch (currentPath) {
+      case '/':
+        return (
+          <>
+            <Hero />
+            <Features />
+            <HowItWorks />
+            <Screenshots />
+            <Testimonials />
+            <FAQ />
+          </>
+        );
+      case '/features':
+        return (
+          <div className="pt-20">
+             <Features />
+          </div>
+        );
+      case '/how-it-works':
+        return (
+          <div className="pt-20">
+             <HowItWorks />
+          </div>
+        );
+      case '/screenshots':
+        return <Screenshots />;
+      case '/faq':
+        return (
+           <div className="pt-20">
+             <FAQ />
+           </div>
+        );
+      case '/privacy-policy':
+        return <PrivacyPolicy />;
+      case '/terms-of-service':
+        return <TermsOfService />;
+      case '/support':
+        return <Support />;
+      case '/download':
+        return <Download />;
+      default:
+        // Fallback to home if path not found, or could be a 404 page
+        return (
+          <>
+            <Hero />
+            <Features />
+            <HowItWorks />
+            <Screenshots />
+            <Testimonials />
+            <FAQ />
+          </>
+        );
+    }
+  };
+
   return (
     <div className={`min-h-screen flex flex-col font-sans transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
       
@@ -74,30 +142,17 @@ const App: React.FC = () => {
       </div>
 
       <Navbar 
-        currentView={view} 
-        onNavigate={handleNavigate} 
+        currentPath={currentPath} 
+        onNavigate={navigate} 
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
       />
       
       <main className="flex-grow">
-        {view === 'home' && (
-          <>
-            <Hero />
-            <Features />
-            <HowItWorks />
-            <Screenshots />
-            <Testimonials />
-            <FAQ />
-          </>
-        )}
-        
-        {view === 'privacy' && <PrivacyPolicy />}
-        
-        {view === 'support' && <Support />}
+        {renderContent()}
       </main>
 
-      <Footer onNavigate={handleNavigate} />
+      <Footer onNavigate={navigate} />
     </div>
   );
 };
