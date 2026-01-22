@@ -56,7 +56,12 @@ const App: React.FC = () => {
   };
 
   const navigate = (path: string) => {
-    window.history.pushState({}, '', path);
+    try {
+      window.history.pushState({}, '', path);
+    } catch (e) {
+      // Ignore security errors in sandboxed environments (like blob URLs)
+      console.warn('Navigation URL update failed:', e);
+    }
     setCurrentPath(path);
     window.scrollTo(0, 0);
   };
@@ -75,48 +80,11 @@ const App: React.FC = () => {
 
   // Router Logic
   const renderContent = () => {
-    switch (currentPath) {
-      case '/':
-        return (
-          <>
-            <Hero />
-            <Features />
-            <HowItWorks />
-            <Screenshots />
-            <Testimonials />
-            <FAQ />
-          </>
-        );
-      case '/features':
-        return (
-          <div className="pt-20">
-             <Features />
-          </div>
-        );
-      case '/how-it-works':
-        return (
-          <div className="pt-20">
-             <HowItWorks />
-          </div>
-        );
-      case '/screenshots':
-        return <Screenshots />;
-      case '/faq':
-        return (
-           <div className="pt-20">
-             <FAQ />
-           </div>
-        );
-      case '/privacy-policy':
-        return <PrivacyPolicy />;
-      case '/terms-of-service':
-        return <TermsOfService />;
-      case '/support':
-        return <Support />;
-      case '/download':
-        return <Download />;
-      default:
-        // Fallback to home if path not found, or could be a 404 page
+    // Normalization for environments where pathname might be empty or just '/'
+    const path = currentPath || '/';
+    
+    // Check for exact paths
+    if (path === '/' || path === '/index.html') {
         return (
           <>
             <Hero />
@@ -128,6 +96,49 @@ const App: React.FC = () => {
           </>
         );
     }
+    
+    if (path.startsWith('/features')) {
+        return (
+          <div className="pt-20">
+             <Features />
+          </div>
+        );
+    }
+    
+    if (path.startsWith('/how-it-works')) {
+        return (
+          <div className="pt-20">
+             <HowItWorks />
+          </div>
+        );
+    }
+
+    if (path.startsWith('/screenshots')) return <Screenshots />;
+    
+    if (path.startsWith('/faq')) {
+        return (
+           <div className="pt-20">
+             <FAQ />
+           </div>
+        );
+    }
+    
+    if (path.startsWith('/privacy-policy')) return <PrivacyPolicy />;
+    if (path.startsWith('/terms-of-service')) return <TermsOfService />;
+    if (path.startsWith('/support')) return <Support />;
+    if (path.startsWith('/download')) return <Download />;
+
+    // Default Fallback
+    return (
+      <>
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <Screenshots />
+        <Testimonials />
+        <FAQ />
+      </>
+    );
   };
 
   return (
